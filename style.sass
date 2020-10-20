@@ -1,0 +1,41 @@
+body
+    margin: 0
+
+h1
+    text-align: center
+
+.inputOmråde
+    display: flex
+    flex-flow: row wrap
+    justify-content: center
+
+    div
+        display: flex
+        flex-flow: column nowrap
+
+        label
+            text-align: center
+
+.configOmråde
+    display: flex
+    flex-flow: column nowrap
+    justify-content: space-around
+
+textarea
+    resize: none
+    height: 15em
+    width: 30em
+    margin: .2em
+
+button
+    padding: .6em .4em
+
+input
+    &[type="number"] //? nødvendig?
+        width: 4em
+        height: 2em
+
+.bruteforceOmråde
+    display: flex
+    flex-flow: row wrap
+    justify-content: center

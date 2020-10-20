@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar-kryptering</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Caesar-kryptering og brute force</h1>
+    
+    <main>
+        
+        <!-- category skriv og få meld -->
+        <section class="inputOmråde">
+
+            <!-- Knapper og krypteringsnøkkel -->
+            <div class="configOmråde">
+    
+                <!-- Krypteringsnøkkel -->
+                <label for="krypteringsNokkel">Krypteringsnøkkel:</label>
+                <input type="number" id="krypteringsNokkel">
+
+                <!-- Knapper -->
+                <button id="krypteringKnapp">Krypter</button>
+                <button id="dekrypteringKnapp">Dekrypter</button>
+                <button id="bruteforceKnapp">Brute foce!</button>
+            </div>
+            
+            <!-- skriv melding -->
+            <div class="tekstInputContainer"> <!-- klasse nødvendig? -->
+                <label for="tekstInn">Skriv inn:</label>
+                <textarea type="textarea" id="tekstInn"></textarea>
+            </div>
+
+            <!-- utskrift av melding -->
+            <div class="tekstInputContainer">
+                <label for="tekstUt">Utskrift:</label>
+                <textarea type="text" id="tekstUt"></textarea>
+            </div>
+            
+        </section>
+
+        <!-- category svar frå brute force -->
+        <section class="bruteforceOmråde">
+
+            <h2>Løysingar frå brute force:</h2>
+
+            <ul class="bruteforceListe"></ul>
+            
+        </section>
+        
+    </main>
+
+    <!-- category import av JS -->
+    <script src="code.js"></script>
+</body>
+</html>
