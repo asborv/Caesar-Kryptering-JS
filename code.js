@@ -51,6 +51,7 @@ function krypter(innMelding, nokkel) { // TODO endre navn på meldingsnavn
         const alfabetIndex = alfabetStr.indexOf(tegn);
         if (alfabetIndex  == -1) {
             // Dersom teiknet ikkje er i alfabetet
+            //link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw#Description
             throw new Error(`${tegn} finst ikkje i alfabetet.`);
         } else {
             // Legg til index i array med oversikt
