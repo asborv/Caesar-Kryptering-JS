@@ -15,7 +15,7 @@ const alfabetArr = alfabetStr.split("");
 
 // category funksjonar
 
-function krypter(innMelding, nokkel) { // TODO endre navn på meldingsnavn
+function krypter(innMelding, nokkel) {
     /**
     * docstring
     * -> Tek inn ein melding, og utfører ein Caesar-kryptering.
@@ -34,8 +34,8 @@ function krypter(innMelding, nokkel) { // TODO endre navn på meldingsnavn
     * -> Returns:
     * -> 	utMelding
     */
-    
-    
+
+
     // Plasshaldarar
     let utMelding = "";
     const indexArr = [];
