@@ -1,5 +1,6 @@
 body
     margin: 0
+    font-family: Arial, Helvetica, sans-serif
 
 h1
     text-align: center
@@ -35,7 +36,15 @@ input
         width: 4em
         height: 2em
 
+        &::-webkit-inner-spin-button
+            display: none
+
 .bruteforceOmråde
     display: flex
     flex-flow: row wrap
     justify-content: center
+
+    h2
+        display: block
+        flex-basis: 100%
+        text-align: center

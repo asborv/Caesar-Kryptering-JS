@@ -9,18 +9,20 @@
 <body>
 
     <h1>Caesar-kryptering og brute force</h1>
-    
+
     <main>
-        
+
         <!-- category skriv og få meld -->
         <section class="inputOmråde">
 
-            <!-- Knapper og krypteringsnøkkel -->
+            <!-- Knapper og krypteringsnykkel -->
             <div class="configOmråde">
     
-                <!-- Krypteringsnøkkel -->
-                <label for="krypteringsNokkel">Krypteringsnøkkel:</label>
-                <input type="number" id="krypteringsNokkel">
+                <!-- Krypteringsnykkel -->
+                <label for="krypteringsNokkel">Krypteringsnykkel:</label>
+                <!-- todo legg til krav om heiltal -->
+                <input type="number" id="krypteringsNokkel" value="1">
+                <!-- placeholder i JS avhengig av lengd av alfabet -->
 
                 <!-- Knapper -->
                 <button id="krypteringKnapp">Krypter</button>
@@ -37,7 +39,7 @@
             <!-- utskrift av melding -->
             <div class="tekstInputContainer">
                 <label for="tekstUt">Utskrift:</label>
-                <textarea type="text" id="tekstUt"></textarea>
+                <textarea type="text" id="tekstUt" readonly></textarea>
             </div>
             
         </section>
@@ -47,7 +49,7 @@
 
             <h2>Løysingar frå brute force:</h2>
 
-            <ul class="bruteforceListe"></ul>
+            <ul id="bruteforceListe"></ul>
             
         </section>
         
