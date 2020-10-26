@@ -1,8 +1,5 @@
-// todo sjekk at finnIndex og byggUtMelding fungerer med ulike typer argumenter
-// todo takle funksjonar for tomme inputs, må gjerast for individuelle?
-// todo kopier til utklippstavla
-// todo direkte indeksering av str fungerer, sjekk kva alfabetArr som kan byttast ut med alfabetStr. Unngå forvirring med alfabet/alfabetStr
 // todo legg til smart dekryptering
+// todo føreslå pull request når ein skriv ikkje-definerte teikn
 
 // category HTML-element
 
@@ -35,12 +32,13 @@ function finnIndex(innMelding) {
     
     * -> Base variables:
     * -> 	indexArr (Array): Inneheld indeksar til elementa i innMelding i alfabet, i rekkjefølgje
+    * ->    uderfinderteTegn (bool): true dersom innMelding inneheld teikn som ikkje finst i alfabetStr, false elles.
+    * ->                             Brukast til å stoppe kryptering.
     
     * -> Returns:
-    * -> 	indexArr
+    * -> 	indexArr / null
     */
     
-
     // Plasshaldar
     const indexArr = [];
 
@@ -50,20 +48,18 @@ function finnIndex(innMelding) {
     }
 
     // Itererer melding
-    innMelding.forEach(tegn => {
+    // link https://stackoverflow.com/questions/2641347/short-circuit-array-foreach-like-calling-break
+    const udefinerteTegn =
+    innMelding.some(tegn => {
         const alfabetIndex = alfabetStr.indexOf(tegn);
-        if (alfabetIndex  == -1) {
-            // Dersom teiknet ikkje er i alfabetet
-            // todo gjer noko som viser brukaren dette
-            //link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw#Description
-            throw new Error(`${tegn} finst ikkje i alfabetet.`);
-        } else {
-            // Legg til index i array med oversikt
-            indexArr.push(alfabetIndex);
-        }
+        if (alfabetIndex !== -1) { indexArr.push(alfabetIndex); }
+
+        // true dersom eit teikn ikkje finst
+        return alfabetIndex  === -1;
     });
 
-    return indexArr;
+    // indexArr dersom alle teikn finst i alfabetStr
+    return udefinerteTegn ? null : indexArr;
 }
 
 function byggUtMelding(indexArr, rotertAlfabet) {
@@ -88,7 +84,6 @@ function byggUtMelding(indexArr, rotertAlfabet) {
     let utMelding = "";
 
     // Køyrer funksjonen med rotertAlfabet som Array om nødvendig
-    // ! test denne
     if (typeof(rotertAlfabet) === "string") {
         return byggUtMelding(indexArr, rotertAlfabet.split(""));
     }
@@ -130,12 +125,18 @@ function krypter(e) {
 
     // Set nokkel til minste verdi i restklassen til krypteringsnykkelen (restoperator)
     // Legg til lengda dersom nokkel < 0: t.d. -1 vert 101 ( dersom alfabetStr er 102 lang)
-    nokkel = (nokkel % alfabetArr.length) + (nokkel < 0 ? alfabetArr.length : 0);
+    nokkel = (nokkel % alfabetStr.length) + (nokkel < 0 ? alfabetStr.length : 0);
     if (e.target == dekrypteringKnapp) {
-    nokkel = alfabetArr.length - nokkel;
+        nokkel = alfabetStr.length - nokkel;
     }
 
-    const indexArr = finnIndex(innMelding)
+    const indexArr = finnIndex(innMelding);
+
+    // Ingen tekst å kryptere. Viser at det gjekk gale og stopper funksjonen
+    if (!indexArr) {
+        visKopiert(e, false);
+        return;
+    }
 
     // Alfabetforskyving, roterer alfabetArr nokkel gonger
     for (let i = 0; i < nokkel; i++) {
@@ -149,6 +150,8 @@ function krypter(e) {
     // Set kryptert melding i utskriftfelt
     tekstUt.value = utMelding;
     
+    kopierTilUtklippsTavle(tekstUt, tekstInn, e);
+
     return utMelding;
 }
 
@@ -166,11 +169,16 @@ function slettAlleBarn(barnContainer) {
 function bruteForce(e) {
     // todo lag docstring
     
-    slettAlleBarn(bruteforceListe); //! Merk at denne ikkje er defienrt per no
+    slettAlleBarn(bruteforceListe);
     const indexArr = finnIndex(tekstInn.value);
+    // Stopper funksjonen, og viser at noko gjekk gale
+    if (!indexArr) {
+        visKopiert(e, false)
+        return;
+    }
     const alfabetArr = alfabetStr.split("");
     
-    for (let i = 0; i < alfabetArr.length - 1; i++) {
+    for (let i = 0; i < alfabetStr.length - 1; i++) {
         // Set tilbake utMelding mellom kvar iterasjon av alfabetrotasjon
         let utMelding = "";
         
@@ -191,6 +199,105 @@ function bruteForce(e) {
         bruteforceListe.appendChild(bruteforceListeElement);        
     }
 
+}
+
+function elementTilNormal(element, forTekst, forbgFarge, forsinkelse) {
+    /**
+    * docstring
+    * -> Set innerHTML og bakgrunnsfargen til det oppgjeve elementet.
+    * -> Merk at funksjonen er til for meir eller mindre hardkorda situasjonar.
+    
+    * -> Args:
+    * -> 	element (HTML-element): Elementet som skal få stilen endra.
+    * ->    forTekst (str): innerHTML som skal setjast på element.
+    * ->    forFarge (str): backgroundColor som skal setjast på element.
+    * ->    forsinkelse (number): Forsenkinga før endringa skal skje
+
+    * -> Returns:
+    * -> 	null
+    */
+    
+
+    setTimeout(() => {
+        element.innerHTML = forTekst;
+        element.style.backgroundColor = forbgFarge;
+    }, forsinkelse);
+
+    return;
+}
+
+function visKopiert(e, status = true) {
+    /**
+    * docstring
+    * -> Viser med farge og tekst om tekst har blitt kopiert til utklippstavla.
+    * -> Meint til å bruke på knappane krypteringsKnapp og dekrypteringsKnapp.
+    * -> (Ikkje teke hensyn til andre element).
+    
+    * -> Args:
+    * -> 	e (event)
+    * ->    status (bool): Vellukka kopiering eller ikkje.
+    * ->                   Tolkast frå str, altså ikkje vellukka for "".
+    
+    * -> Base variables:
+    * -> 	forTekst (str): e.target (knappen som vert trykt) sin tekst (innerHTML) før endring.
+    * ->    forFarge (str): e.target (knappen som vert trykt) sin bakgrunnsfarge (backgroundColor) før endring.
+    
+    * -> Returns:
+    * -> 	null
+    */
+    
+    // Initielle verdiar for knappen
+    const forTekst = e.target.innerHTML;
+    const forbgFarge = e.target.style.backgroundColor;
+
+    // Endrar knappen
+    e.target.style.backgroundColor = status
+        ? "RGBA(0, 255, 0, .3)"
+        : "RGBA(255, 0, 0, .3)";
+    
+    e.target.innerHTML = status
+        ? "Kopiert!"
+        : "Feil!";
+    
+    // Reset stilen på knappen
+    elementTilNormal(e.target, forTekst, forbgFarge, 1000);
+}
+
+function kopierTilUtklippsTavle(element, fokusElementEtter = null, e) {
+    /**
+    * docstring
+    * -> Kopierer value-attributten til eit <input> - eller <textarea>-felt.
+    
+    * -> Args:
+    * -> 	element (<input> / <textarea>): Feltet ein vil kopiere frå
+    * ->    fokusElementEtter (HTML-element): Elementet som skal fokuserast på etter kopiering.
+    * ->                                      Default: null
+    
+    * -> Returns:
+    * -> 	str: Den kopierte teksten
+    */
+    
+
+    // Markerer <input> - eller <textarea>-felt.
+    element.select();
+
+    // Markerer heile feltet (for alle plattformer) og kopierer
+    // link https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+    element.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    
+    // Fjerner markeringa
+    element.setSelectionRange(0, 0);
+
+    // Setter focus på definert element
+    if (fokusElementEtter) {
+        fokusElementEtter.focus();
+    }
+
+    // Viser om kopieringa var vellukka
+    visKopiert(e, element.value);
+
+    return element.value;
 }
 
 

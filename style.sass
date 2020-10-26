@@ -26,15 +26,19 @@ textarea
     resize: none
     height: 15em
     width: 30em
+    max-width: 80vw
     margin: .2em
 
 button
+    background-color: lightgrey
     padding: .6em .4em
+    transition-duration: 200ms
 
 input
     &[type="number"] //? nødvendig?
         width: 4em
         height: 2em
+        align-self: flex-end
 
         &::-webkit-inner-spin-button
             display: none
