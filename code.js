@@ -156,7 +156,18 @@ function krypter(e) {
 }
 
 function slettAlleBarn(barnContainer) {
-    // todo lag docstring
+    /**
+    * docstring
+    * -> Slettar alle barn av eit HTML-element.
+    * -> Fungerer rekursivt.
+    
+    * -> Args:
+    * -> 	barnContainer (HTML-element): Container som skal tømmast for barn.
+
+    * -> Returns:
+    * -> 	null
+    */
+    
     
     // link https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
     while (barnContainer.firstChild) {
@@ -167,7 +178,25 @@ function slettAlleBarn(barnContainer) {
 }
 
 function bruteForce(e) {
-    // todo lag docstring
+    /**
+    * docstring
+    * -> Utører bruteforce-algoritmen for alfabetforskyving på ein tekststreng.
+    * -> Viser restultata i bruteforceListe.
+    
+    * -> Args:
+    * -> 	e (event): description
+    
+    * -> Base variables:
+    * -> 	indexArr (Array): "Map" over indeksar for teksten i tekstInn.
+    * ->    alfabetArr (Array): alfabetStr splitta for kvar bokstav.
+    * ->    utMelding (str): Meldinga som skal skrivast ut for kvart forsøk.
+    * ->    bruteforceListeElement (HTML-element): <li>-element som inneheld kvart av brutefoce-forsøka
+    * ->    bruteforceListeElementNode (str): Tekst i bruteforceListeElement: utMelding
+    
+    * -> Returns:
+    * -> 	null:
+    */
+    
     
     slettAlleBarn(bruteforceListe);
     const indexArr = finnIndex(tekstInn.value);
@@ -199,6 +228,7 @@ function bruteForce(e) {
         bruteforceListe.appendChild(bruteforceListeElement);        
     }
 
+    return;
 }
 
 function elementTilNormal(element, forTekst, forbgFarge, forsinkelse) {
