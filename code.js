@@ -13,7 +13,7 @@ const bruteforceListe = document.getElementById("bruteforceListe");
 
 // category variablar
 
-const alfabetStr = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ!#¤%&/()=?`^¨*'-.,_:;@£$€{[]}´<>+\\\"0123456789\n\t ";
+const alfabetStr = "abcdefghijklmnopqrstuvwxyzæøåòèéàáïöôîABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅÒÈÉÀÁÏÖÔÎ!#¤%&/()=?`^¨*'-.,_:;@£$€{[]}´<>+\\\"0123456789\n\t ";
 
 
 
